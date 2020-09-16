@@ -1,11 +1,13 @@
 //app.js to export the app ready for integration testing
 
-require('dotenv').config();
+//require('dotenv').config();
 const express = require('express');
 const morgan = require('morgan');
 const helmet = require('helmet');
 const cors = require('cors');
+const logger = require('./logger'); //winston
 const { NODE_ENV, CLIENT_ORIGIN } = require('./config');
+const usersRouter = require('./users/users-router.js');
 
 const app = express();
 
@@ -23,6 +25,11 @@ app.use(
 );
 
 
+
+app.get('/', (req, res) => {
+  res.send({ok: true});
+})
+
 app.use(function errorHandler(error, req, res, next) {
   let response;
   if (NODE_ENV === 'production') {
@@ -34,8 +41,5 @@ app.use(function errorHandler(error, req, res, next) {
   res.status(500).json(response);
 })
 
-app.get('/', (req, res) => {
-  res.send({ok: true});
-})
 
 module.exports = app;
