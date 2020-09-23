@@ -45,7 +45,7 @@ VALUES
         'Bar',
         'ebar1',
         '$2a$12$qXPyWzMaEHendl0y.ARQQuNa0zx5ZlzrzgwlAGZjdNCV5a1fTtczK',
-        'https://i.imgur.com/9vln7v6.jpg',
+        'https://i.imgur.com/hW5QDM5.jpg',
         null,
         null
     );
