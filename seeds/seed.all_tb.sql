@@ -32,20 +32,20 @@ VALUES
         'Hello world, I''m Pastor Steve!'
     ),
     (
-        'Christine',
-        'Caine',
-        'ccaine',
-        '$2a$12$qXPyWzMaEHendl0y.ARQQuNa0zx5ZlzrzgwlAGZjdNCV5a1fTtczK',
-        'https://i.imgur.com/9vln7v6.jpg',
-        null,
-        null
-    ),
-    (
         'Eitan',
         'Bar',
         'ebar1',
         '$2a$12$qXPyWzMaEHendl0y.ARQQuNa0zx5ZlzrzgwlAGZjdNCV5a1fTtczK',
         'https://i.imgur.com/hW5QDM5.jpg',
+        null,
+        null
+    ),
+    (
+        'Christine',
+        'Caine',
+        'ccaine',
+        '$2a$12$qXPyWzMaEHendl0y.ARQQuNa0zx5ZlzrzgwlAGZjdNCV5a1fTtczK',
+        'https://i.imgur.com/9vln7v6.jpg',
         null,
         null
     );
@@ -66,11 +66,6 @@ VALUES
         1
     ),
     (
-        'Sitting with friends watching a stunning SoCal sunset is good for my soul.',
-        'https://i.imgur.com/VArOc1b.jpg',
-        2
-    ),
-    (
         'You must have a capacity to receive, or even omnipotence can''t give. -C.S. Lewis',
         null,
         1
@@ -79,6 +74,11 @@ VALUES
         'Check out our facebook page at https://www.facebook.com/oneforIsrael/',
         null,
         3
+    ),
+    (
+        'Sitting with friends watching a stunning SoCal sunset is good for my soul.',
+        'https://i.imgur.com/VArOc1b.jpg',
+        2
     ),
     (
         'Quantum Theory is the closest thing to secular minds catching up to the Bible. The duality of light as particle & wave (the God-Man Jesus). Quantum nonlocality (Omnipresence). Action at a distance or instantaneous affect of one particle on another regardless of distance (Prayer).',
