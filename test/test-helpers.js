@@ -1,4 +1,5 @@
 //const jwt = require('jsonwebtoken);
+//const bcrypt = require('bcryptjs');
 
 function makeUsers(){
     return[
@@ -81,22 +82,110 @@ function makePosts(){
     ]
 }
 
-function addComments(){}
+function addComments(){
+    return [
+        { 
+            id: 1,
+            user_id: 1,
+            post_id: 4,
+            comment: 'Beautiful!',
+            date_created: '2020-08-30T17:48:32.615Z'
+        }
+    ]
+}
 
-function addLikes(){}
+function addLikes(){
+    return [
+        {
+            id: 1,
+            user_id: 2,
+            post_id: 3
+        }
+    ]
+}
 
-function makeFixtures(){}
+function makeFixtures(){
+    const testUsers = makeUsers();
+    const testPosts = makePosts();
+    const testComment = addComments();
+    const testLike = addLikes();
+    return { testUsers, testPosts, testComment, testLike };
+}
 
-function cleanTables(db){}
+function cleanTables(db){
+    return db.transaction(trx => 
+        trx.raw(
+            `TRUNCATE
+                likes_tb,
+                comments_tb,
+                posts_tb,
+                users_tb
+                RESTART IDENTITY CASCADE`
+        )
+    )
+}
 
-function seedUsers(){}
 
-function seedPosts(){}
+function seedUsers(db, users){
+    const preppedUsers = users.map(user => ({
+        ...user,
+        //password: bcrypt.hashSync(user.password, 12)
+    }));
+    return db.into('users_tb').insert(preppedUsers)
+    .then(() => 
+        //update the auto sequence to stay in sync
+        db.raw(
+            `SELECT setval('users_tb_id_seq', ?)`,
+            [users[users.length - 1].id],
+        )
+    )
+    .catch(error => console.log(error))
+}
 
-function seedComments(){}
+function seedTables(db, users, posts, comments=[], likes=[]){
+    //use a transaction to group the queries and auto rollback on any failure
+    return db.transaction(async trx => {
+        try {
+            await seedUsers(trx, users);
+            await trx.into('posts_tb').insert(posts);
+            //update the auto sequence to match the forced id values
+            await trx.raw(
+                `SELECT setval('posts_tb_id_seq', ?)`,
+                [posts[posts.length - 1].id]
+            )
+            //only insert comments if there are some
+            if(comments.length){
+                await trx.into('comments_tb').insert(comments);
+            }
+            //only insert likes if there are some
+            if(likes.length){
+                await trx.into('likes_tb').insert(likes);
+            }
+        }
+        catch(e){
+            console.log("error", e);
+        }
+    })
+}
 
-function seedLikes(){}
+
+
+//function seedComments(){}
+
+//function seedLikes(){}
 
 
 
-module.exports = {} 
+module.exports = {
+    makeUsers,
+    makePosts,
+    addComments,
+    addLikes,
+
+    makeFixtures,
+    cleanTables,
+    seedUsers,
+    seedTables,
+};
+
+

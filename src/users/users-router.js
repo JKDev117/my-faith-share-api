@@ -5,6 +5,7 @@ const path = require('path');
 const jsonBodyParser = express.json();
 
 usersRouter
+    .route('/users')
     .post()
     .get()
     .patch()

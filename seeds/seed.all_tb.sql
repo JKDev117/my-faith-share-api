@@ -99,7 +99,7 @@ INSERT INTO comments_tb (user_id, post_id, comment)
 VALUES
     (
         1,
-        2,
+        4,
         'Beautiful!'
     );
 

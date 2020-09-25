@@ -8,7 +8,7 @@ const cors = require('cors');
 const logger = require('./logger'); //winston
 const { NODE_ENV, CLIENT_ORIGIN } = require('./config');
 const usersRouter = require('./users/users-router.js');
-
+const postsRouter = require('./posts/posts-router.js');
 const app = express();
 
 const morganOption = (NODE_ENV === 'production')
@@ -29,6 +29,10 @@ app.use(
 app.get('/', (req, res) => {
   res.send({ok: true});
 })
+
+
+app.use(postsRouter);
+
 
 app.use(function errorHandler(error, req, res, next) {
   let response;
