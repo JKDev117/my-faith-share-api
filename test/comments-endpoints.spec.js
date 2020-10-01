@@ -1,6 +1,4 @@
-const { expect } = require('chai');
 const knex = require('knex');
-const supertest = require('supertest');
 const app = require('../src/app');
 const helpers = require('./test-helpers');
 
@@ -66,7 +64,7 @@ describe('Comments Endpoints', function() {
 
     })//end describe `POST /comments`
 
-    describe.only(`DELETE /comments`, () => { 
+    describe(`DELETE /comments`, () => { 
         context('Given no comments in the database', () => {
             it('responds with 404', () => {
                 const testId = 123456;
@@ -79,7 +77,7 @@ describe('Comments Endpoints', function() {
             });
         });
 
-        context.only('Given there are comments in the database', () => {
+        context('Given there are comments in the database', () => {
             beforeEach('insert comments', () => 
                 helpers.seedTables(db, testUsers, testPosts, testComment)
             )

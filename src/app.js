@@ -2,6 +2,7 @@
 
 //require('dotenv').config();
 const express = require('express');
+const app = express();
 const morgan = require('morgan');
 const helmet = require('helmet');
 const cors = require('cors');
@@ -10,7 +11,7 @@ const { NODE_ENV, CLIENT_ORIGIN } = require('./config');
 const usersRouter = require('./users/users-router.js');
 const postsRouter = require('./posts/posts-router.js');
 const commentsRouter = require('./comments/comments-router.js');
-const app = express();
+const likesRouter = require('./likes/likes-router.js');
 
 const morganOption = (NODE_ENV === 'production')
   ? 'tiny'
@@ -25,8 +26,6 @@ app.use(
   })
 );
 
-
-
 app.get('/', (req, res) => {
   res.send({ok: true});
 })
@@ -34,6 +33,7 @@ app.get('/', (req, res) => {
 
 app.use(postsRouter);
 app.use(commentsRouter);
+app.use(likesRouter);
 
 app.use(function errorHandler(error, req, res, next) {
   let response;

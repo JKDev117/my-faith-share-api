@@ -5,7 +5,25 @@ const path = require('path');
 const jsonBodyParser = express.json();
 
 likesRouter
-    .post()
-    .get()
+    .route('/likes')
+    .post(jsonBodyParser, (req, res, next) => {
+        //console.log('req.body', req.body);
+        const { user_id, post_id } = req.body;
+        const newLike = { user_id, post_id }
+
+        LikesService.addLike(
+            req.app.get('db'),
+            newLike
+        )
+            .then(item => {
+                res.status(201)
+                   .json(item)
+            })
+            .catch(next)
+    }) //end post
+    .get((req, res, next) => {
+        LikesService.getLikes(req.app.get('db'))
+            .then(likes => res.json(likes))
+    })
     
 module.exports = likesRouter;
