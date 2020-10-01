@@ -9,6 +9,7 @@ const logger = require('./logger'); //winston
 const { NODE_ENV, CLIENT_ORIGIN } = require('./config');
 const usersRouter = require('./users/users-router.js');
 const postsRouter = require('./posts/posts-router.js');
+const commentsRouter = require('./comments/comments-router.js');
 const app = express();
 
 const morganOption = (NODE_ENV === 'production')
@@ -32,7 +33,7 @@ app.get('/', (req, res) => {
 
 
 app.use(postsRouter);
-
+app.use(commentsRouter);
 
 app.use(function errorHandler(error, req, res, next) {
   let response;

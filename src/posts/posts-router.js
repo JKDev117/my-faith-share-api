@@ -39,7 +39,7 @@ postsRouter
     })
     .delete(jsonBodyParser, (req, res, next) => {
         //console.log('req', req)
-        // console.log('req.body', req.body)
+        //console.log('req.body', req.body)
         PostsService.getById(
             req.app.get('db'),
             req.body.id

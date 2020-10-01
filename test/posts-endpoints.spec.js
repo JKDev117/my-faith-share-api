@@ -1,8 +1,7 @@
 const knex = require('knex');
 const app = require('../src/app');
 const helpers = require('./test-helpers');
-const { expect } = require('chai');
-const supertest = require('supertest');
+
 
 const {
     testUsers,
@@ -105,9 +104,8 @@ describe('Posts Endpoints', function(){
                     .expect(404, {error: {message: 'Post does not exist.'}})
             })
         })
-
     
-        context.only('Given there are posts in the database', () => {
+        context('Given there are posts in the database', () => {
             beforeEach('insert posts', () => 
                 helpers.seedTables(db, testUsers, testPosts)
             );
