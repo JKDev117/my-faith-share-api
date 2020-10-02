@@ -3,9 +3,9 @@ const app = require('../src/app');
 const helpers = require('./test-helpers');
 const bcrypt = require('bcryptjs');
 const supertest = require('supertest');
+const { expect } = require('chai');
 
-
-const { testUsers } = helpers.makeFixtures();
+const { testUsers, preppedUsers } = helpers.makeFixtures();
 const testUser = testUsers[0];
 
 describe('Users Endpoints', function() {
@@ -191,13 +191,18 @@ describe('Users Endpoints', function() {
         }); //end context 'Given no users'
 
         context('Given there are users in the database', () => {
-            beforeEach('insert users', () => 
-              helpers.seedUsers(db, testUsers)
+            
+            beforeEach('insert users', () =>
+                helpers.seedUsers(db, preppedUsers)
             )
 
+            const userId = 2;
+            const preppedUser = preppedUsers[userId - 1];
+            const expectedUserKeyValues = {
+              ...preppedUser,
+            }
+
             it('responds with 200 and the specified user', () => {
-              const userId = 2;
-              const expectedUserKeyValues = testUsers[userId - 1];
               return supertest(app)
                 .get(`/users/${userId}`)
                 //.set('Authorization', helpers.makeAuthHeader(testUsers[0]))
@@ -219,14 +224,16 @@ describe('Users Endpoints', function() {
         })//end context 'Given no users'
 
         context('Given there are users in the database', () => {
+            
+          
             beforeEach('insert users', () => 
-                helpers.seedUsers(db, testUsers)
+                helpers.seedUsers(db, preppedUsers)
             );
 
             it('responds with 204 and the updated user key-values', () => {
                 const userId = 2;
                 const updatedUserKeyValues = {
-                  ...testUsers[userId - 1],
+                  ...preppedUsers[userId - 1],
                   bg_image_url: 'https://i.imgur.com/x92Y7p4.jpg',
                   user_bio: 'Hello!'
                 };
@@ -242,7 +249,7 @@ describe('Users Endpoints', function() {
                      supertest(app)
                         .get(`/users/${userId}`)
                         //.set('Authorization', helpers.makeAuthHeader(testUsers[0]))
-                        .expect(expectedUserKeyValues)  
+                        .expect(expectedUserKeyValues)
                   )
             })
         })//end context 'Given there are users in the database'

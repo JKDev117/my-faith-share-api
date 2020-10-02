@@ -8,12 +8,11 @@ const helmet = require('helmet');
 const cors = require('cors');
 const logger = require('./logger'); //winston
 const { NODE_ENV, CLIENT_ORIGIN } = require('./config');
+const authRouter = require('./auth/auth-router.js');
 const usersRouter = require('./users/users-router.js');
 const postsRouter = require('./posts/posts-router.js');
 const commentsRouter = require('./comments/comments-router.js');
 const likesRouter = require('./likes/likes-router.js');
-
-
 
 const morganOption = (NODE_ENV === 'production')
   ? 'tiny'
@@ -28,14 +27,15 @@ app.use(
   })
 );
 
-app.get('/', (req, res) => {
-  res.send({ok: true});
-})
-
 app.use(usersRouter);
+app.use(authRouter);
 app.use(postsRouter);
 app.use(commentsRouter);
 app.use(likesRouter);
+
+app.get('/', (req, res) => {
+  res.send({ok: true});
+})
 
 app.use(function errorHandler(error, req, res, next) {
   let response;

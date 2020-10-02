@@ -6,9 +6,6 @@ const path = require('path');
 const postsRouter = express.Router();
 const PostsService = require('./posts-service');
 
-
-
-
 postsRouter
     .route('/posts')
     //.all(requireAuth)
@@ -45,7 +42,7 @@ postsRouter
             req.body.id
         )
             .then(item => {
-                console.log('item', item)
+                //console.log('item', item)
                 if(!item){
                     return res.status(404).json({
                         error: {message: 'Post does not exist.'}

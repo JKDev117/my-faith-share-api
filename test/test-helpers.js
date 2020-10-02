@@ -1,5 +1,5 @@
-//const jwt = require('jsonwebtoken);
-//const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
 
 function makeUsers(){
     return[
@@ -106,10 +106,14 @@ function addLikes(){
 
 function makeFixtures(){
     const testUsers = makeUsers();
+    const preppedUsers = testUsers.map(user => ({
+        ...user,
+        password: bcrypt.hashSync(user.password, 12)
+    }));
     const testPosts = makePosts();
     const testComment = addComments();
     const testLike = addLikes();
-    return { testUsers, testPosts, testComment, testLike };
+    return { testUsers, preppedUsers, testPosts, testComment, testLike };
 }
 
 function cleanTables(db){
@@ -127,11 +131,7 @@ function cleanTables(db){
 
 
 function seedUsers(db, users){
-    const preppedUsers = users.map(user => ({
-        ...user,
-        //password: bcrypt.hashSync(user.password, 12)
-    }));
-    return db.into('users_tb').insert(preppedUsers)
+    return db.into('users_tb').insert(users)
     .then(() => 
         //update the auto sequence to stay in sync
         db.raw(
@@ -168,12 +168,19 @@ function seedTables(db, users, posts, comments=[], likes=[]){
     })
 }
 
+function makeAuthHeader(user, secret = process.env.JWT_SECRET) {
+    const token = jwt.sign(
+        { user_id: user.id },
+        secret,
+        {
+            subject: user.user_name,
+            expiresIn: process.env.JWT_EXPIRY,
+            algorithm: 'HS256',
+        }
+    );
 
-
-//function seedComments(){}
-
-//function seedLikes(){}
-
+    return `Bearer ${token}`;
+}
 
 
 module.exports = {
@@ -186,6 +193,7 @@ module.exports = {
     cleanTables,
     seedUsers,
     seedTables,
+    makeAuthHeader,
 };
 
 
