@@ -13,6 +13,8 @@ const postsRouter = require('./posts/posts-router.js');
 const commentsRouter = require('./comments/comments-router.js');
 const likesRouter = require('./likes/likes-router.js');
 
+
+
 const morganOption = (NODE_ENV === 'production')
   ? 'tiny'
   : 'common';
@@ -30,7 +32,7 @@ app.get('/', (req, res) => {
   res.send({ok: true});
 })
 
-
+app.use(usersRouter);
 app.use(postsRouter);
 app.use(commentsRouter);
 app.use(likesRouter);
