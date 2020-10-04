@@ -4,6 +4,7 @@ const usersRouter = express.Router();
 const path = require('path');
 const { json } = require('express');
 const jsonBodyParser = express.json();
+const { requireAuth } = require('../middleware/jwt-auth');
 
 usersRouter
   .route('/users')
@@ -62,7 +63,7 @@ usersRouter
 
 usersRouter
   .route('/users/:user_id')
-  .all((req,res,next) => {
+  .all(requireAuth, (req,res,next) => {
       //console.log(req.params.user_id)
       //console.log(req)
       UsersService.findUser(

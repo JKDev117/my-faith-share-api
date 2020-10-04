@@ -3,9 +3,11 @@ const likesRouter = express.Router();
 const LikesService = require('./likes-service');
 const path = require('path');
 const jsonBodyParser = express.json();
+const { requireAuth } = require('../middleware/jwt-auth');
 
 likesRouter
     .route('/likes')
+    .all(requireAuth)
     .post(jsonBodyParser, (req, res, next) => {
         //console.log('req.body', req.body);
         const { user_id, post_id } = req.body;

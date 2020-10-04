@@ -5,10 +5,11 @@ const path = require('path');
 
 const postsRouter = express.Router();
 const PostsService = require('./posts-service');
+const { requireAuth } = require('../middleware/jwt-auth');
 
 postsRouter
     .route('/posts')
-    //.all(requireAuth)
+    .all(requireAuth)
     .get((req, res, next) => {
         const knexInstance = req.app.get('db')
         PostsService.getAllPosts(knexInstance)

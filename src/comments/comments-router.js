@@ -4,9 +4,11 @@ const CommentsService = require('./comments-service');
 const path = require('path');
 const jsonBodyParser = express.json();
 const logger = require('../logger.js');
+const { requireAuth } = require('../middleware/jwt-auth');
 
 commentsRouter
     .route('/comments')
+    .all(requireAuth)
     .post(jsonBodyParser, (req, res, next) => {
         //console.log('req.body', req.body);
         const { user_id, post_id, comment } = req.body;
