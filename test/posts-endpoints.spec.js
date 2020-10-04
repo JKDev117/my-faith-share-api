@@ -8,6 +8,7 @@ const {
     testPosts
 } = helpers.makeFixtures();
 
+const testUser = testUsers[0];
 
 describe('Posts Endpoints', function(){
 
@@ -36,7 +37,7 @@ describe('Posts Endpoints', function(){
             it('responds with 200 and an empty list', () => {
                 return supertest(app)
                     .get('/posts')
-                    //.set('Authorization', helpers.makeAuthHeaders(testUsers[0]))
+                    .set('Authorization', helpers.makeAuthHeader(testUser))
                     .expect(200, [])
             })
         })//End context 'Given no posts'
@@ -50,7 +51,7 @@ describe('Posts Endpoints', function(){
             it('GET /posts responds with 200 and all of the post items', () => {
                 return supertest(app)
                     .get('/posts')
-                    //.set('Authorization', helpers.makeAuthHeaders(testUsers[0]))
+                    .set('Authorization', helpers.makeAuthHeader(testUser))
                     .expect(200, testPosts);
             });
         }); //end context 'Given there are post items in the database'
@@ -69,7 +70,7 @@ describe('Posts Endpoints', function(){
             }
             return supertest(app)
                 .post('/posts')
-                //.set('Authorization', helpers.makeAuthHeader(testUsers[0]))
+                .set('Authorization', helpers.makeAuthHeader(testUser))
                 .send(newPost)
                 .expect(201)
                 .expect(res => {
@@ -100,7 +101,7 @@ describe('Posts Endpoints', function(){
                 return supertest(app)
                     .delete('/posts')
                     .send({id: postId})
-                    //.set('Authorization', helpers.makeAuthHeader(testUsers[0]))
+                    .set('Authorization', helpers.makeAuthHeader(testUser))
                     .expect(404, {error: {message: 'Post does not exist.'}})
             })
         })
@@ -116,12 +117,12 @@ describe('Posts Endpoints', function(){
                 return supertest(app)
                     .delete('/posts')
                     .send({id: idToRemove})
-                    //.set('Authorization', helpers.makeAuthHeader(testUsers[0]))
+                    .set('Authorization', helpers.makeAuthHeader(testUser))
                     .expect(204)
                     .then(res => 
                         supertest(app)
                             .get('/posts')
-                            //.set('Authorization', helpers.makeAuthHeader(testUsers[0]))
+                            .set('Authorization', helpers.makeAuthHeader(testUser))
                             .expect(expectedPosts)
                     )
             }) //end 'it responds with 204 and removes the post' 

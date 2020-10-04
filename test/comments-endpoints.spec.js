@@ -8,6 +8,8 @@ const {
     testComment
 } = helpers.makeFixtures();
 
+const testUser = testUsers[0];
+
 describe('Comments Endpoints', function() {
 
     let db;
@@ -40,7 +42,7 @@ describe('Comments Endpoints', function() {
 
             return supertest(app)
                 .post('/comments')
-                //.set('Authorization', helpers.makeAuthHeader(testUsers[0]))
+                .set('Authorization', helpers.makeAuthHeader(testUser))
                 .send(newComment)
                 .expect(201)
                 .expect(res => {
@@ -66,12 +68,16 @@ describe('Comments Endpoints', function() {
 
     describe(`DELETE /comments`, () => { 
         context('Given no comments in the database', () => {
+            beforeEach('insert comments', () => 
+                helpers.seedTables(db, testUsers)
+            )
+
             it('responds with 404', () => {
                 const testId = 123456;
 
                 return supertest(app)
                     .delete('/comments')
-                    //.set('Authorization', helpers.makeAuthHeader(testUsers[0]))
+                    .set('Authorization', helpers.makeAuthHeader(testUser))
                     .send({ id: testId })
                     .expect(404, {error: {message: 'Comment does not exist!'}});
             });
@@ -87,12 +93,12 @@ describe('Comments Endpoints', function() {
                 return supertest(app)
                     .delete('/comments')
                     .send({id: idToRemove})
-                    //.set('Authorization', helpers.makeAuthHeader(testUsers[0]))
+                    .set('Authorization', helpers.makeAuthHeader(testUser))
                     .expect(204)
                     .then(res => 
                         supertest(app)
                             .get('/comments')
-                            //.set('Authorization', helpers.makeAuthHeader(testUsers[0]))
+                            .set('Authorization', helpers.makeAuthHeader(testUser))
                             .expect(expectedComments)
                     )
             }) //end 'it responds with 204 and removes the comment' 

@@ -8,6 +8,8 @@ const {
     testLike
 } = helpers.makeFixtures();
 
+const testUser = testUsers[0];
+
 describe('Likes Endpoints', function() {
 
     let db;
@@ -39,7 +41,7 @@ describe('Likes Endpoints', function() {
 
             return supertest(app)
                 .post('/likes')
-                //.set('Authorization', helpers.makeAuthHeader(testUsers[0]))
+                .set('Authorization', helpers.makeAuthHeader(testUser))
                 .send(newLike)
                 .expect(201)
                 .expect(res => {
@@ -62,11 +64,14 @@ describe('Likes Endpoints', function() {
 
     describe('GET /likes', () => { 
         context('Given no "likes" in database', () => {
+            beforeEach('insert posts', () => 
+                helpers.seedTables(db, testUsers)
+            )
 
             it('responds with 200 and an empty list', () => {
                 return supertest(app)
                     .get('/likes')
-                    //.set('Authorization', helpers.makeAuthHeaders(testUsers[0]))
+                    .set('Authorization', helpers.makeAuthHeader(testUser))
                     .expect(200, [])
             })
         })//End context 'Given no likes'
@@ -80,7 +85,7 @@ describe('Likes Endpoints', function() {
             it('GET /likes responds with 200 and all of the like items', () => {
                 return supertest(app)
                     .get('/likes')
-                    //.set('Authorization', helpers.makeAuthHeaders(testUsers[0]))
+                    .set('Authorization', helpers.makeAuthHeader(testUser))
                     .expect(200, testLike);
             });
         }); //end context 'Given there are post items in the database'

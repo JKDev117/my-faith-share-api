@@ -6,6 +6,7 @@ const supertest = require('supertest');
 const { expect } = require('chai');
 
 const { testUsers, preppedUsers } = helpers.makeFixtures();
+
 const testUser = testUsers[0];
 
 describe('Users Endpoints', function() {
@@ -181,11 +182,15 @@ describe('Users Endpoints', function() {
 
   describe(`GET /users/:user_id`, () => {
         context('Given no users', () => {
+            beforeEach('insert users', () =>
+                helpers.seedUsers(db, preppedUsers)
+            )
+
             it('responds with 404', () => {
               const userId = 123456;
               return supertest(app)
                   .get(`/users/${userId}`)
-                  //.set('Authorization', helpers.makeAuthHeader(testUsers[0]))
+                  .set('Authorization', helpers.makeAuthHeader(testUser))
                   .expect(404, {error: { message: 'User does not exist.' }});
             });
         }); //end context 'Given no users'
@@ -205,7 +210,7 @@ describe('Users Endpoints', function() {
             it('responds with 200 and the specified user', () => {
               return supertest(app)
                 .get(`/users/${userId}`)
-                //.set('Authorization', helpers.makeAuthHeader(testUsers[0]))
+                .set('Authorization', helpers.makeAuthHeader(testUser))
                 .expect(200, expectedUserKeyValues)
             });
         }); //end context 'Given there are users in the database'
@@ -214,11 +219,15 @@ describe('Users Endpoints', function() {
 
   describe(`PATCH /users/:user_id`, () => {
         context('Given no users', () => {
+            beforeEach('insert users', () =>
+              helpers.seedUsers(db, preppedUsers)
+            )
+
             it('responds with 404', () => {
                 const userId = 123456;
                 return supertest(app)
                   .patch(`/users/${userId}`)
-                  //.set('Authorization', helpers.makeAuthHeader(testUsers[0]))
+                  .set('Authorization', helpers.makeAuthHeader(testUser))
                   .expect(404, {error: { message: 'User does not exist.' }})
             })
         })//end context 'Given no users'
@@ -242,13 +251,13 @@ describe('Users Endpoints', function() {
                 };
                 return supertest(app)
                   .patch(`/users/${userId}`)
-                  //.set('Authorization', helpers.makeAuthHeader(testUsers[0]))
+                  .set('Authorization', helpers.makeAuthHeader(testUser))
                   .send(updatedUserKeyValues)
                   .expect(204)
                   .then(res => 
                      supertest(app)
                         .get(`/users/${userId}`)
-                        //.set('Authorization', helpers.makeAuthHeader(testUsers[0]))
+                        .set('Authorization', helpers.makeAuthHeader(testUser))
                         .expect(expectedUserKeyValues)
                   )
             })
