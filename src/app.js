@@ -20,12 +20,15 @@ const morganOption = (NODE_ENV === 'production')
 
 app.use(morgan(morganOption));
 app.use(helmet()); //Make sure to place helmet before cors in the pipeline. 17.6
-//app.use(cors());
+app.use(cors());
+
+/*
 app.use(
   cors({
     origin: CLIENT_ORIGIN
   })
 );
+*/
 
 app.use(usersRouter);
 app.use(authRouter);
