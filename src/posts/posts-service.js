@@ -1,7 +1,8 @@
 const PostsService = {
 
     getAllPosts(knex){
-        return knex.select('*').from('posts_tb').orderBy('date_created');
+        //return knex.select('*').from('posts_tb').orderBy('date_created');
+        
     },
     addNewPost(knex, newPost){
         return knex
