@@ -624,3 +624,6 @@
 {"message":"@jwt-auth.js: Unauthorized request because code in try block failed","level":"error"}
 {"message":"@jwt-auth.js: Unauthorized request because user is undefined","level":"error"}
 {"message":"@auth-router.js >> Incorrect user_name","level":"error"}
+{"message":"@jwt-auth.js: Unauthorized request because code in try block failed","level":"error"}
+{"message":"@jwt-auth.js: Unauthorized request because code in try block failed","level":"error"}
+{"message":"@jwt-auth.js: Unauthorized request because code in try block failed","level":"error"}

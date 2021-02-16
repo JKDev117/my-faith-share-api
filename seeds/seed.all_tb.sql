@@ -20,13 +20,14 @@ TRUNCATE
 --     user_bio TEXT,
 -- );
 
-INSERT INTO users_tb (first_name, last_name, user_name, password, profile_image_url, bg_image_url, user_bio)
+INSERT INTO users_tb (first_name, last_name, user_name, password, date_created, profile_image_url, bg_image_url, user_bio)
 VALUES
     (
         'Steve', 
         'Cioccolanti', 
         'cioccolanti', 
         '$2a$12$qXPyWzMaEHendl0y.ARQQuNa0zx5ZlzrzgwlAGZjdNCV5a1fTtczK',
+        '2020-07-13 11:11:11',
         'https://i.imgur.com/1TFqjAS.jpg',
         'https://i.imgur.com/nYN45VB.jpg',
         'Hello world, I''m Pastor Steve!'
@@ -36,6 +37,7 @@ VALUES
         'Bar',
         'ebar1',
         '$2a$12$qXPyWzMaEHendl0y.ARQQuNa0zx5ZlzrzgwlAGZjdNCV5a1fTtczK',
+        '2020-08-27 11:11:11',
         'https://i.imgur.com/hW5QDM5.jpg',
         null,
         null
@@ -45,6 +47,7 @@ VALUES
         'Caine',
         'ccaine',
         '$2a$12$qXPyWzMaEHendl0y.ARQQuNa0zx5ZlzrzgwlAGZjdNCV5a1fTtczK',
+        '2020-08-29 11:11:11',
         'https://i.imgur.com/9vln7v6.jpg',
         null,
         null
@@ -58,30 +61,35 @@ VALUES
 --     user_id INTEGER REFERENCES users_tb(id) ON DELETE CASCADE NOT NULL
 -- );
 
-INSERT INTO posts_tb (message, share_url, user_id)
+INSERT INTO posts_tb (message, date_created, share_url, user_id)
 VALUES
     (
         'If my interpretation of the Bible is correct, there will be a new strain of coronavirus named something like chrysoscoronavirus or Covidaurum. A lot of times the Bible plays on words that become common or clear later. Like chloroquine is a play on chloros + equine = green horse.',
+        '2020-07-15 11:11:11',
         null,
         1
     ),
     (
         'You must have a capacity to receive, or even omnipotence can''t give. -C.S. Lewis',
+        '2020-07-28 11:11:11',
         null,
         1
     ),
     (
         'Check out our facebook page at https://www.facebook.com/oneforIsrael/',
+        '2020-08-28 11:11:11',
         null,
         3
     ),
     (
         'Sitting with friends watching a stunning SoCal sunset is good for my soul.',
+        '2020-08-30 11:11:11',
         'https://i.imgur.com/VArOc1b.jpg',
         2
     ),
     (
         'Quantum Theory is the closest thing to secular minds catching up to the Bible. The duality of light as particle & wave (the God-Man Jesus). Quantum nonlocality (Omnipresence). Action at a distance or instantaneous affect of one particle on another regardless of distance (Prayer).',
+        '2020-08-30 12:11:11',
         null,
         1
     );
@@ -95,12 +103,13 @@ VALUES
 -- );
 
 
-INSERT INTO comments_tb (user_id, post_id, comment)
+INSERT INTO comments_tb (user_id, post_id, comment, date_created)
 VALUES
     (
         1,
         4,
-        'Beautiful!'
+        'Beautiful!',
+        '2020-08-30 11:31:11'
     );
 
 -- CREATE TABLE likes_tb (
